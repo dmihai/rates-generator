@@ -5,6 +5,9 @@ import pandas as pd
 import math
 import os.path
 
+importPath = "raw/"
+exportPath = "rates/"
+
 frames = {
     "M1":             1 * 60,
     "M3":             3 * 60,
@@ -38,7 +41,7 @@ def loadFiles(pair):
         "DAT_ASCII_" + pair + "_M1_202204.csv",
     ]
     for file in inputFiles:
-        rows = loadCsv("raw/" + file, rows)
+        rows = loadCsv(importPath + file, rows)
 
     print(f'  found {len(rows)} lines.')
 
@@ -61,7 +64,7 @@ def loadCsv(file, rows):
 
 
 def saveCsv(file, rows):
-    with open(file, 'w', encoding='UTF8', newline='') as f:
+    with open(exportPath + file, 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 
@@ -108,7 +111,7 @@ for pair in pairs:
         for frame, interval in frames.items():
             print(f'  exporting {frame} rates')
             rates = getRatesForInterval(interval, rates_m1)
-            filename = 'rates/' + pair + '_' + frame + '_2022.csv'
+            filename = pair + '_' + frame + '_2022.csv'
             saveCsv(filename, rates)
 
 exec_time = time.time() - start_time
