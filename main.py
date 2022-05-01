@@ -3,10 +3,19 @@ from datetime import datetime
 import time
 import pandas as pd
 import math
-import os.path
+from os import listdir
+from os.path import isfile, join, exists
 
-importPath = "raw/"
-exportPath = "rates/"
+inputPath = "raw/"
+outputPath = "rates/"
+
+years = ["2022", "2021", "2020", "2019"]
+
+pairs = ['EURUSD', 'EURCHF', 'EURGBP', 'EURJPY',
+         'EURAUD', 'USDCAD', 'USDCHF', 'USDJPY',
+         'USDMXN', 'GBPCHF', 'GBPJPY', 'GBPUSD',
+         'AUSJPY', 'AUDUSD', 'CHFJPY', 'NZDJPY',
+         'NZDUSD', 'XAUUSD']
 
 frames = {
     "M1":             1 * 60,
@@ -25,23 +34,13 @@ frames = {
     "MN1": 30 * 24 * 60 * 60,
 }
 
-pairs = ['EURUSD', 'EURCHF', 'EURGBP', 'EURJPY',
-         'EURAUD', 'USDCAD', 'USDCHF', 'USDJPY',
-         'USDMXN', 'GBPCHF', 'GBPJPY', 'GBPUSD',
-         'AUSJPY', 'AUDUSD', 'CHFJPY', 'NZDJPY',
-         'NZDUSD', 'XAUUSD']
 
-
-def loadFiles(pair):
+def loadFiles(pair, year):
     rows = []
-    inputFiles = [
-        "DAT_ASCII_" + pair + "_M1_202201.csv",
-        "DAT_ASCII_" + pair + "_M1_202202.csv",
-        "DAT_ASCII_" + pair + "_M1_202203.csv",
-        "DAT_ASCII_" + pair + "_M1_202204.csv",
-    ]
+    inputFiles = (f for f in files if '_'+pair+'_' in f and '_'+year in f)
+
     for file in inputFiles:
-        rows = loadCsv(importPath + file, rows)
+        rows = loadCsv(inputPath + file, rows)
 
     print(f'  found {len(rows)} lines.')
 
@@ -49,7 +48,7 @@ def loadFiles(pair):
 
 
 def loadCsv(file, rows):
-    if os.path.exists(file):
+    if exists(file):
         with open(file) as f:
             # DateTime, Open, High, Low, Close, Volume
             csv_reader = csv.reader(f, delimiter=';')
@@ -64,7 +63,7 @@ def loadCsv(file, rows):
 
 
 def saveCsv(file, rows):
-    with open(exportPath + file, 'w', encoding='UTF8', newline='') as f:
+    with open(outputPath + file, 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 
@@ -102,17 +101,19 @@ def getRatesForInterval(interval, rows):
 
 
 start_time = time.time()
+files = [f for f in listdir(inputPath) if isfile(join(inputPath, f))]
 
 for pair in pairs:
-    print(f'Processing {pair} trade history')
-    rates_m1 = loadFiles(pair)
+    for year in years:
+        print(f'Processing {pair} trade history for year {year}')
+        rates_m1 = loadFiles(pair, year)
 
-    if len(rates_m1) > 0:
-        for frame, interval in frames.items():
-            print(f'  exporting {frame} rates')
-            rates = getRatesForInterval(interval, rates_m1)
-            filename = pair + '_' + frame + '_2022.csv'
-            saveCsv(filename, rates)
+        if len(rates_m1) > 0:
+            for frame, interval in frames.items():
+                print(f'  exporting {frame} rates')
+                rates = getRatesForInterval(interval, rates_m1)
+                filename = pair + '_' + frame + '_' + year + '.csv'
+                saveCsv(filename, rates)
 
 exec_time = time.time() - start_time
 print("Execution time: %s seconds" % exec_time)
