@@ -13,7 +13,7 @@ years = ["2022", "2021", "2020", "2019"]
 pairs = ['EURUSD', 'EURCHF', 'EURGBP', 'EURJPY',
          'EURAUD', 'USDCAD', 'USDCHF', 'USDJPY',
          'USDMXN', 'GBPCHF', 'GBPJPY', 'GBPUSD',
-         'AUSJPY', 'AUDUSD', 'CHFJPY', 'NZDJPY',
+         'AUDJPY', 'AUDUSD', 'CHFJPY', 'NZDJPY',
          'NZDUSD', 'XAUUSD']
 
 frames = {
