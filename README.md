@@ -13,7 +13,7 @@ The rates are generated for the following timeframes:
 - H1
 - H2
 - H3
-- H$
+- H4
 - H6
 - D1
 - W1
