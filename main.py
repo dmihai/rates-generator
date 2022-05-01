@@ -1,7 +1,6 @@
 import csv
 from datetime import datetime
 import time
-import pandas as pd
 import math
 from os import listdir
 from os.path import isfile, join, exists
