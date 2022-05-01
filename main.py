@@ -4,6 +4,7 @@ import time
 import math
 from os import listdir
 from os.path import isfile, join, exists
+import argparse
 
 inputPath = "raw/"
 outputPath = "rates/"
@@ -100,21 +101,31 @@ def getRatesForInterval(interval, rows):
 
 
 start_time = time.time()
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--year', type=str, required=True,
+                    help='Select the year (2022)')
+parser.add_argument('--pair', type=str, required=False, default='',
+                    help='Select the currency pair (EURUSD) or leave blank to select all')
+args = parser.parse_args()
+
+if args.pair != '':
+    pairs = [args.pair]
+
 files = [f for f in listdir(inputPath) if isfile(
     join(inputPath, f)) and '.csv' in f]
 files.sort()
 
 for pair in pairs:
-    for year in years:
-        print(f'Processing {pair} trade history for year {year}')
-        rates_m1 = loadFiles(pair, year)
+    print(f'Processing {pair} trade history for year {args.year}')
+    rates_m1 = loadFiles(pair, args.year)
 
-        if len(rates_m1) > 0:
-            for frame, interval in frames.items():
-                print(f'  exporting {frame} rates')
-                rates = getRatesForInterval(interval, rates_m1)
-                filename = pair + '_' + frame + '_' + year + '.csv'
-                saveCsv(filename, rates)
+    if len(rates_m1) > 0:
+        for frame, interval in frames.items():
+            print(f'  exporting {frame} rates')
+            rates = getRatesForInterval(interval, rates_m1)
+            filename = pair + '_' + frame + '_' + args.year + '.csv'
+            saveCsv(filename, rates)
 
 exec_time = time.time() - start_time
 print("Execution time: %s seconds" % exec_time)
