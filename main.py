@@ -102,6 +102,7 @@ def getRatesForInterval(interval, rows):
 
 start_time = time.time()
 files = [f for f in listdir(inputPath) if isfile(join(inputPath, f))]
+files.sort()
 
 for pair in pairs:
     for year in years:
