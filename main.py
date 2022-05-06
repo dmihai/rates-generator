@@ -52,7 +52,8 @@ def loadCsv(file, rows):
             csv_reader = csv.reader(f, delimiter=';')
 
             for row in csv_reader:
-                dateTime = datetime.strptime(row[0], '%Y%m%d %H%M%S')
+                dateTime = datetime.strptime(
+                    row[0]+" -0500", '%Y%m%d %H%M%S %z')
 
                 rows.append([int(dateTime.timestamp()),
                             row[1], row[2], row[3], row[4]])
