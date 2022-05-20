@@ -2,8 +2,8 @@ import csv
 from datetime import datetime
 import time
 import math
-from os import listdir
-from os.path import isfile, join, exists
+from os import listdir, mkdir
+from os.path import isfile, isdir, join, exists
 import argparse
 
 inputPath = "raw/"
@@ -72,8 +72,13 @@ def loadCsv(file, rows):
     return rows
 
 
-def saveCsv(file, rows):
-    with open(outputPath + file, 'w', encoding='UTF8', newline='') as f:
+def saveCsv(pair, frame, year, rows):
+    filename = f"{pair}_{frame}_{year}.csv"
+    filepath = f"{outputPath}/{pair}"
+    if not isdir(filepath):
+        mkdir(filepath)
+    
+    with open(f"{filepath}/{filename}", 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         writer.writerows(rows)
 
@@ -134,8 +139,7 @@ for pair in pairs:
         for frame, interval in frames.items():
             print(f'  exporting {frame} rates')
             rates = getRatesForInterval(interval, rates_m1)
-            filename = pair + '_' + frame + '_' + args.year + '.csv'
-            saveCsv(filename, rates)
+            saveCsv(pair, frame, args.year, rates)
 
 exec_time = time.time() - start_time
 print("Execution time: %s seconds" % exec_time)
