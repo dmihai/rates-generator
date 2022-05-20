@@ -13,7 +13,18 @@ pairs = ['EURUSD', 'EURCHF', 'EURGBP', 'EURJPY',
          'EURAUD', 'USDCAD', 'USDCHF', 'USDJPY',
          'USDMXN', 'GBPCHF', 'GBPJPY', 'GBPUSD',
          'AUDJPY', 'AUDUSD', 'CHFJPY', 'NZDJPY',
-         'NZDUSD', 'XAUUSD']
+         'NZDUSD', 'XAUUSD', 'AUDCAD', 'AUDCHF',
+         'AUDNZD', 'AUXAUD', 'BCOUSD', 'CADCHF',
+         'CADJPY', 'EURCAD', 'EURCZK', 'EURDKK',
+         'EURHUF', 'EURNOK', 'EURNZD', 'EURPLN',
+         'EURSEK', 'EURTRY', 'FRXEUR', 'GBPAUD',
+         'GBPCAD', 'GBPNZD', 'GRXEUR', 'HKXHKD',
+         'JPXJPY', 'NSXUSD', 'NZDCAD', 'NZDCHF',
+         'SGDJPY', 'SPXUSD', 'UDXUSD', 'UKXGBP',
+         'USDCZK', 'USDDKK', 'USDHKD', 'USDHUF',
+         'USDNOK', 'USDPLN', 'USDSEK', 'USDSGD',
+         'USDTRY', 'USDZAR', 'WTIUSD', 'XAGUSD',
+         'ZARJPY']
 
 frames = {
     "M1":             1 * 60,
