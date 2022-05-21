@@ -1,7 +1,5 @@
-import csv
 from datetime import datetime
 import time
-import math
 from os import listdir, mkdir
 from os.path import isfile, isdir, join, exists
 import argparse
