@@ -18,3 +18,7 @@ The rates are generated for the following timeframes:
 - D1
 - W1
 - MN1
+
+## Command for unziping the downloaded files
+
+    unzip /mnt/d/work/forex/05/\*.zip -d /mnt/d/work/rates-generator/raw/
